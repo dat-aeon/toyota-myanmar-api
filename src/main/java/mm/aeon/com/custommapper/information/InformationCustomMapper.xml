@@ -1,0 +1,270 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper
+	namespace="mm.aeon.com.custommapper.information.InformationCustomMapper">
+	
+	<resultMap id="yardInfoResultMap" type="mm.aeon.com.dto.information.YardResDto">
+		<id column="ID" jdbcType="INTEGER" property="yardId" />
+		<result column="NAME" jdbcType="VARCHAR" property="name" />
+	</resultMap>
+	
+	<select id="getYardList" resultMap="yardInfoResultMap">
+		SELECT
+			Y.ID,
+			Y.NAME
+		FROM
+			yard Y
+		WHERE
+			Y.DELETE_FLG = FALSE
+		AND
+			Y.DISABLED = FALSE
+		ORDER BY
+			Y.NAME
+	</select>
+	
+	<resultMap id="taskInfoResultMap" type="mm.aeon.com.dto.information.TaskResDto">
+		<id column="ID" jdbcType="INTEGER" property="taskId" />
+		<result column="TASK_NAME" jdbcType="VARCHAR" property="taskName" />
+		<result column="PROCESS_TYPE" jdbcType="INTEGER" property="processType" />
+	</resultMap>
+	
+	<select id="getTaskListWithPreviousTaskStatus" parameterType="java.lang.Integer" resultMap="taskInfoResultMap">
+		SELECT
+			T.ID,
+			T.TASK_NAME,
+			T.PROCESS_TYPE
+		FROM
+			task T
+		WHERE
+			T.DELETE_FLG = FALSE
+		<if test="previousTaskStatus == null or previousTaskStatus != 0">
+			AND T.PROCESS_TYPE IN (0,2,3)
+		</if>
+		<if test="previousTaskStatus != null and previousTaskStatus != 1">
+			AND T.PROCESS_TYPE IN (1,2,3)
+		</if>
+		AND
+			T.DISABLED = FALSE
+		ORDER BY
+			T.TASK_NAME
+	</select>
+	
+	<resultMap id="trailerInfoResultMap" type="mm.aeon.com.dto.information.TrailerResDto">
+		<id column="ID" jdbcType="INTEGER" property="trailerId" />
+		<result column="TRAILER_CODE" jdbcType="VARCHAR" property="trailerName" />
+	</resultMap>
+	
+	<select id="getTrailerList" resultMap="trailerInfoResultMap">
+		SELECT
+			T.ID,
+			T.TRAILER_CODE
+		FROM
+			trailer T
+		WHERE
+			T.DELETE_FLG = FALSE
+		AND
+			T.DISABLED = FALSE
+		ORDER BY
+			T.TRAILER_CODE
+	</select>
+	
+	<resultMap id="parkingInfoResultMap" type="mm.aeon.com.dto.information.ZoneResDto">
+		<id column="ZONE_ID" jdbcType="INTEGER" property="zoneId" />
+		<result column="ZONE_NAME" jdbcType="VARCHAR" property="zoneName" />
+		
+		<collection resultMap="zoneRowInfoResultMap" property="zoneRowDtoList" />
+	</resultMap>
+	
+	<resultMap id="zoneRowInfoResultMap" type="mm.aeon.com.dto.information.ZoneRowDto">
+		<id column="ZONE_ROW_ID" jdbcType="INTEGER" property="zoneRowId" />
+		<result column="ZONE_ROW_NAME" jdbcType="VARCHAR" property="zoneRowName" />
+		
+		<collection resultMap="zoneColumnInfoResultMap" property="zoneColumnDtoList" />
+	</resultMap>
+	
+	<resultMap id="zoneColumnInfoResultMap" type="mm.aeon.com.dto.information.ZoneColumnDto">
+		<id column="ZONE_COLUMN_ID" jdbcType="INTEGER" property="zoneColumnId" />
+		<result column="ZONE_COLUMN_NAME" jdbcType="VARCHAR" property="zoneColumnName" />
+	</resultMap>
+	
+	<select id="getAvailableParkingList" parameterType="java.lang.Integer" resultMap="parkingInfoResultMap">
+		SELECT
+			Z.ID AS ZONE_ID,
+			Z.NAME AS ZONE_NAME,
+			ZR.ID AS ZONE_ROW_ID,
+			ZR.NAME AS ZONE_ROW_NAME,
+			ZC.ID AS ZONE_COLUMN_ID,
+			ZC.NAME AS ZONE_COLUMN_NAME
+		FROM
+			zone Z
+		LEFT JOIN
+			zone_row ZR
+		ON
+			Z.ID = ZR.ZONE_ID
+		LEFT JOIN
+			zone_column ZC
+		ON
+			ZR.ID = ZC.ROW_ID
+		WHERE
+			Z.DELETE_FLG = FALSE
+		AND
+			Z.DISABLED = FALSE
+		AND
+			ZR.DELETE_FLG = FALSE
+		AND 
+			ZR.DISABLED = FALSE
+		AND
+			ZC.DELETE_FLG = FALSE
+		AND 
+			ZC.DISABLED = FALSE
+		AND
+			ZC.STATUS = 0
+		AND
+			Z.YARD_ID = #{yardId,jdbcType=INTEGER}
+		ORDER BY
+			Z.NAME, ZR.NAME, ZC.NAME
+	</select>
+	
+	<resultMap id="driverInfoResultMap" type="mm.aeon.com.dto.information.DriverResDto">
+		<id column="ID" jdbcType="INTEGER" property="driverId" />
+		<result column="DRIVER_NAME" jdbcType="VARCHAR" property="driverName" />
+		<result column="LICENSE_NO" jdbcType="VARCHAR" property="licenseNo" />
+		<result column="PHONE_NO" jdbcType="VARCHAR" property="phoneNo" />
+	</resultMap>
+	
+	<select id="getDriverInfoWithBarcode" parameterType="java.lang.String" resultMap="driverInfoResultMap">
+		SELECT
+			D.ID,
+			D.DRIVER_NAME,
+			D.LICENSE_NO,
+			D.PHONE_NO
+		FROM
+			driver D
+		WHERE
+			D.BARCODE_ID = #{staffId,jdbcType=VARCHAR}
+		AND
+			D.DISABLED = FALSE
+		AND
+			D.DELETE_FLG = FALSE
+	</select>
+	
+	<resultMap id="vehicleInfoResultMap" type="mm.aeon.com.dto.information.VehicleInfoResDto">
+		<id column="ID" jdbcType="INTEGER" property="vehicleInfoId" />
+		<result column="CHASSIS_NO" jdbcType="VARCHAR" property="chassisNo" />
+		<result column="MODEL" jdbcType="VARCHAR" property="model" />
+		<result column="COLOR" jdbcType="VARCHAR" property="color" />
+	</resultMap>
+	
+	<select id="getVehicleInfoWithChassisNo" parameterType="java.lang.String" resultMap="vehicleInfoResultMap">
+		SELECT
+			VI.ID,
+			VI.CHASSIS_NO,
+			VI.MODEL,
+			VI.COLOR
+		FROM
+			vehicle_info VI
+		WHERE
+			VI.CHASSIS_NO = #{chassisNo,jdbcType=VARCHAR}
+		AND
+			VI.DISABLED = FALSE
+		AND
+			VI.DELETE_FLG = FALSE
+	</select>
+	
+	<select id="getPreviousVehicleTaskProcessType" parameterType="java.lang.Integer" resultType="java.lang.Integer">
+		SELECT
+			T.PROCESS_TYPE
+		FROM
+			inspect_vehicle IV
+		LEFT JOIN
+			task t
+		ON
+			IV.TASK_Id = T.ID
+		WHERE
+			IV.VEHICLE_ID = #{vehicleInfoId,jdbcType=INTEGER}
+		ORDER BY
+			IV.CREATED_DATE DESC
+		LIMIT
+			1
+	</select>
+	
+	<select id="getPreviousVehicleZoneColumnStatus" parameterType="map" resultType="java.lang.Integer">
+		SELECT
+			ZC.STATUS
+		FROM
+			inspect_vehicle IV
+		LEFT JOIN
+			zone_column ZC
+		ON
+			IV.PARKING_COLUMN_ID = ZC.ID
+		WHERE
+			IV.VEHICLE_ID = #{vehicleInfoId,jdbcType=INTEGER}
+		AND
+			ZC.YARD_ID = #{yardId,jdbcType=INTEGER}
+		ORDER BY
+			IV.CREATED_DATE DESC
+		LIMIT
+			1
+	</select>
+	
+	<select id="getPreviousVehicleParkingInfo" parameterType="java.lang.Integer" resultMap="parkingInfoResultMap">
+		SELECT
+			Z.ID AS ZONE_ID,
+			Z.NAME AS ZONE_NAME,
+			ZR.ID AS ZONE_ROW_ID,
+			ZR.NAME AS ZONE_ROW_NAME,
+			ZC.ID AS ZONE_COLUMN_ID,
+			ZC.NAME AS ZONE_COLUMN_NAME
+		FROM
+			inspect_vehicle IV
+		LEFT JOIN
+			zone_column ZC
+		ON
+			IV.PARKING_COLUMN_ID = ZC.ID
+		LEFT JOIN
+			zone_row ZR
+		ON
+			ZC.ROW_ID = ZR.ID
+		LEFT JOIN
+			zone Z
+		ON
+			ZR.ZONE_ID = Z.ID
+		WHERE
+			IV.VEHICLE_ID = #{vehicleInfoId,jdbcType=INTEGER}
+		ORDER BY
+			IV.CREATED_DATE DESC
+		LIMIT
+			1
+	</select>
+	
+	<select id="getTrailerWithBarcode" resultMap="trailerInfoResultMap" parameterType="java.lang.String">
+		SELECT
+			T.ID,
+			T.TRAILER_CODE
+		FROM
+			trailer T
+		WHERE
+			T.DELETE_FLG = FALSE
+		AND
+			T.DISABLED = FALSE
+		AND
+			T.BARCODE_ID = #{trailerBarcode,jdbcType=VARCHAR}
+	</select>
+	
+	<resultMap id="remarkInfoResultMap" type="mm.aeon.com.dto.information.RemarkResDto">
+		<id column="ID" jdbcType="INTEGER" property="remarkId" />
+		<result column="REMARK" jdbcType="VARCHAR" property="remark" />
+	</resultMap>
+	
+	<select id="getRemarkList" resultMap="remarkInfoResultMap">
+		SELECT
+			ICR.ID,
+			ICR.REMARK
+		FROM
+			inspect_common_remark ICR
+		ORDER BY
+			ICR.REMARK
+	</select>
+	
+</mapper>

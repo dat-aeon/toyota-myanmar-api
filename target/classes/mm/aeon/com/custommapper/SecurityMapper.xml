@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="mm.aeon.com.custommapper.SecurityMapper">
+	<resultMap id="UserDetailsMap" type="mm.aeon.com.dto.LoginUserDto">
+		<id column="ID" jdbcType="INTEGER" property="loginUserId"  />
+		<result column="NAME" jdbcType="VARCHAR" property="name"  />
+		<result column="PASSWORD" jdbcType="VARCHAR" property="password"  />
+		<result column="ROLE_ID" jdbcType="INTEGER" property="roleId"  />
+		<result column="YARD_ID" jdbcType="INTEGER" property="yardId"  />
+		<collection property="roles" ofType="String" select="getRoleList" column="ROLE_ID" />
+	</resultMap>
+	
+	<select id="findLoginUserByLoginId" parameterType="java.lang.String" resultMap="UserDetailsMap">
+		SELECT
+			UI.ROLE_ID,
+			UI.ID,
+			UI.LOGIN_ID,
+			UI.NAME,
+			UI.PASSWORD,
+			UI.YARD_ID
+		FROM
+			user_info UI
+		WHERE 
+			UI.LOGIN_ID = #{loginId,jdbcType=VARCHAR}
+		AND
+			UI.ROLE_ID = 5
+
+	</select>
+	
+	<select id="getRoleList" parameterType="Integer" resultType="String">
+		SELECT
+			ROLE_NAME
+		FROM
+			ROLE
+		WHERE
+			ROLE.ROLE_ID = #{role_id}
+	</select>	
+</mapper>

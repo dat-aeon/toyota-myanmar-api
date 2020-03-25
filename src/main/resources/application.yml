@@ -1,0 +1,21 @@
+#DataSource Configuration
+spring:
+  datasource:
+    driver-class-name: org.postgresql.Driver
+    url: jdbc:postgresql://10.1.9.74:5432/toyota?useUnicode=true&characterEncoding=utf8
+    username: postgres
+    password: postgres
+  servlet:
+    multipart:
+      max-file-size: 10MB
+      max-request-size: 10MB
+server:
+  servlet:
+    contextPath: /api
+properties:
+  imageBaseFilePath: /PhotoImage
+  inspectVehicleImageFolder: InspectVehicleAttachment
+  serverAddress: 10.1.9.74
+  serverPort: 22
+  serverUsername: root
+  serverPassword: 123@dirace

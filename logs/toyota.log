@@ -1,0 +1,25 @@
+2020-Mar-24 10:04:09 AM INFO  mm.aeon.com.Application - Starting Application on datoa-dat-It043 with PID 7092 (D:\hwyk\D\workspace\toyota-myanmar-api\target\classes started by 25-00137 in D:\hwyk\D\workspace\toyota-myanmar-api)
+2020-Mar-24 10:04:09 AM DEBUG mm.aeon.com.Application - Running with Spring Boot v2.1.1.RELEASE, Spring v5.1.3.RELEASE
+2020-Mar-24 10:04:09 AM INFO  mm.aeon.com.Application - No active profile set, falling back to default profiles: default
+2020-Mar-24 10:04:28 AM DEBUG mm.aeon.com.zconfig.oauth2.CorsFilter$$EnhancerBySpringCGLIB$$9b5710e5 - Filter 'corsFilter' configured for use
+2020-Mar-24 10:04:41 AM INFO  mm.aeon.com.Application - Started Application in 34.55 seconds (JVM running for 40.487)
+2020-Mar-24 10:07:29 AM DEBUG mm.aeon.com.zconfig.aop.LoggingAspect - class mm.aeon.com.api.information.InformationController.getDriverInfoWithBarcode() method has been started. Parameter => {"staffId":"*34-00891*"}
+2020-Mar-24 10:07:30 AM DEBUG mm.aeon.com.zconfig.aop.LoggingAspect - class mm.aeon.com.services.information.InformationService.getDriverInfoWithBarcode() method has been started. Parameter => "*34-00891*"
+2020-Mar-24 10:07:30 AM DEBUG mm.aeon.com.zconfig.aop.LoggingAspect - class mm.aeon.com.dao.information.InformationDao.getDriverInfoWithBarcode() method has been started. Parameter => "*34-00891*"
+2020-Mar-24 10:07:30 AM DEBUG mm.aeon.com.custommapper.information.InformationCustomMapper.getDriverInfoWithBarcode - ==>  Preparing: SELECT D.ID, D.DRIVER_NAME, D.LICENSE_NO, D.PHONE_NO FROM driver D WHERE D.BARCODE_ID = ? AND D.DISABLED = FALSE AND D.DELETE_FLG = FALSE 
+2020-Mar-24 10:07:31 AM DEBUG mm.aeon.com.custommapper.information.InformationCustomMapper.getDriverInfoWithBarcode - ==> Parameters: *34-00891*(String)
+2020-Mar-24 10:07:32 AM DEBUG mm.aeon.com.custommapper.information.InformationCustomMapper.getDriverInfoWithBarcode - <==      Total: 0
+2020-Mar-24 10:07:32 AM DEBUG mm.aeon.com.zconfig.aop.LoggingAspect - class mm.aeon.com.dao.information.InformationDao.getDriverInfoWithBarcode() method has been finished. Return Result => null
+2020-Mar-24 10:07:32 AM DEBUG mm.aeon.com.zconfig.aop.LoggingAspect - class mm.aeon.com.services.information.InformationService.getDriverInfoWithBarcode() method has been finished. Return Result => null
+2020-Mar-24 10:07:32 AM DEBUG mm.aeon.com.zconfig.aop.LoggingAspect - class mm.aeon.com.api.information.InformationController.getDriverInfoWithBarcode() method has been finished. Return Result => null
+2020-Mar-24 10:07:32 AM DEBUG mm.aeon.com.zconfig.aop.LoggingAspect - Result(status=SUCCESS, data=null)
+2020-Mar-24 10:08:07 AM DEBUG mm.aeon.com.zconfig.aop.LoggingAspect - class mm.aeon.com.api.information.InformationController.getDriverInfoWithBarcode() method has been started. Parameter => {"staffId":"HRMTTL011"}
+2020-Mar-24 10:08:07 AM DEBUG mm.aeon.com.zconfig.aop.LoggingAspect - class mm.aeon.com.services.information.InformationService.getDriverInfoWithBarcode() method has been started. Parameter => "HRMTTL011"
+2020-Mar-24 10:08:07 AM DEBUG mm.aeon.com.zconfig.aop.LoggingAspect - class mm.aeon.com.dao.information.InformationDao.getDriverInfoWithBarcode() method has been started. Parameter => "HRMTTL011"
+2020-Mar-24 10:08:07 AM DEBUG mm.aeon.com.custommapper.information.InformationCustomMapper.getDriverInfoWithBarcode - ==>  Preparing: SELECT D.ID, D.DRIVER_NAME, D.LICENSE_NO, D.PHONE_NO FROM driver D WHERE D.BARCODE_ID = ? AND D.DISABLED = FALSE AND D.DELETE_FLG = FALSE 
+2020-Mar-24 10:08:07 AM DEBUG mm.aeon.com.custommapper.information.InformationCustomMapper.getDriverInfoWithBarcode - ==> Parameters: HRMTTL011(String)
+2020-Mar-24 10:08:07 AM DEBUG mm.aeon.com.custommapper.information.InformationCustomMapper.getDriverInfoWithBarcode - <==      Total: 1
+2020-Mar-24 10:08:07 AM DEBUG mm.aeon.com.zconfig.aop.LoggingAspect - class mm.aeon.com.dao.information.InformationDao.getDriverInfoWithBarcode() method has been finished. Return Result => {"driverId":22,"driverName":"Mg Mg Kyi","licenseNo":"D/0130/14","phoneNo":"09951402309"}
+2020-Mar-24 10:08:07 AM DEBUG mm.aeon.com.zconfig.aop.LoggingAspect - class mm.aeon.com.services.information.InformationService.getDriverInfoWithBarcode() method has been finished. Return Result => {"driverId":22,"driverName":"Mg Mg Kyi","licenseNo":"D/0130/14","phoneNo":"09951402309"}
+2020-Mar-24 10:08:07 AM DEBUG mm.aeon.com.zconfig.aop.LoggingAspect - class mm.aeon.com.api.information.InformationController.getDriverInfoWithBarcode() method has been finished. Return Result => {"driverId":22,"driverName":"Mg Mg Kyi","licenseNo":"D/0130/14","phoneNo":"09951402309"}
+2020-Mar-24 10:08:07 AM DEBUG mm.aeon.com.zconfig.aop.LoggingAspect - Result(status=SUCCESS, data=DriverResDto(driverId=22, driverName=Mg Mg Kyi, licenseNo=D/0130/14, phoneNo=09951402309))

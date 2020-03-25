@@ -1,0 +1,148 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper
+	namespace="mm.aeon.com.custommapper.inspectvehicle.InspectVehicleCustomMapper">
+	
+	<insert id="insertInspectVehicle" parameterType="mm.aeon.com.zgen.entity.InspectVehicle" useGeneratedKeys="true" keyProperty="inspectVehicleId">
+    insert into public.inspect_vehicle
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="inspectVehicleId != null">
+        inspect_vehicle_id,
+      </if>
+      <if test="vehicleId != null">
+        vehicle_id,
+      </if>
+      <if test="taskId != null">
+        task_id,
+      </if>
+      <if test="trailerId != null">
+        trailer_id,
+      </if>
+      <if test="carBodyGoodFlag != null">
+        car_body_good_flag,
+      </if>
+      <if test="engineGoodFlag != null">
+        engine_good_flag,
+      </if>
+      <if test="interiorGoodFlag != null">
+        interior_good_flag,
+      </if>
+      <if test="remark != null">
+        remark,
+      </if>
+      <if test="parkingColumnId != null">
+        parking_column_id,
+      </if>
+      <if test="parkingStatus != null">
+        parking_status,
+      </if>
+      <if test="ownerDriverFlag != null">
+        owner_driver_flag,
+      </if>
+      <if test="trailerFlag != null">
+        trailer_flag,
+      </if>
+      <if test="createdDate != null">
+        created_date,
+      </if>
+      <if test="createdUser != null">
+        created_user,
+      </if>
+      <if test="updatedDate != null">
+        updated_date,
+      </if>
+      <if test="updatedUser != null">
+        updated_user,
+      </if>
+      <if test="delFlag != null">
+        del_flag,
+      </if>
+      
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="inspectVehicleId != null">
+        #{inspectVehicleId,jdbcType=INTEGER},
+      </if>
+      <if test="vehicleId != null">
+        #{vehicleId,jdbcType=INTEGER},
+      </if>
+      <if test="taskId != null">
+        #{taskId,jdbcType=INTEGER},
+      </if>
+      <if test="trailerId != null">
+        #{trailerId,jdbcType=INTEGER},
+      </if>
+      <if test="carBodyGoodFlag != null">
+        #{carBodyGoodFlag,jdbcType=BIT},
+      </if>
+      <if test="engineGoodFlag != null">
+        #{engineGoodFlag,jdbcType=BIT},
+      </if>
+      <if test="interiorGoodFlag != null">
+        #{interiorGoodFlag,jdbcType=BIT},
+      </if>
+      <if test="remark != null">
+        #{remark,jdbcType=VARCHAR},
+      </if>
+      <if test="parkingColumnId != null">
+        #{parkingColumnId,jdbcType=INTEGER},
+      </if>
+      <if test="parkingStatus != null">
+        #{parkingStatus,jdbcType=INTEGER},
+      </if>
+      <if test="ownerDriverFlag != null">
+        #{ownerDriverFlag,jdbcType=INTEGER},
+      </if>
+       <if test="trailerFlag != null">
+        #{trailerFlag,jdbcType=BIT},
+      </if>
+      <if test="createdDate != null">
+        #{createdDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="createdUser != null">
+        #{createdUser,jdbcType=INTEGER},
+      </if>
+      <if test="updatedDate != null">
+        #{updatedDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updatedUser != null">
+        #{updatedUser,jdbcType=INTEGER},
+      </if>
+      <if test="delFlag != null">
+        #{delFlag,jdbcType=BIT},
+      </if>
+    </trim>
+  </insert>
+  
+  <resultMap id="vehicleInfoResultMap" type="mm.aeon.com.dto.inspectvehicle.VehicleInfoDto">
+		<id column="ID" jdbcType="INTEGER" property="vehicleInfoId" />
+		<result column="CHASSIS_NO" jdbcType="VARCHAR" property="chassisNo" />
+		<result column="MODEL" jdbcType="VARCHAR" property="model" />
+		<result column="COLOR" jdbcType="VARCHAR" property="color" />
+		<result column="COLOR_CODE" jdbcType="VARCHAR" property="colorCode" />
+	</resultMap>
+  
+  <select id="getVehicleInfo" parameterType="java.lang.String" resultMap="vehicleInfoResultMap">
+		SELECT
+			VI.ID,
+			VI.CHASSIS_NO,
+			VI.MODEL,
+			VI.COLOR,
+			VI.COLOR_CODE
+		FROM
+			vehicle_info VI
+		WHERE
+			VI.CHASSIS_NO = #{chassisNo,jdbcType=VARCHAR}
+	</select>
+	
+	<select id="getParkingZoneColumnStatus" parameterType="java.lang.Integer" resultType="java.lang.Integer">
+		SELECT
+			ZC.STATUS
+		FROM
+			zone_column ZC
+		WHERE
+			ZC.ID = #{parkingZoneColumnId,jdbcType=INTEGER}
+	</select>
+	
+</mapper>
